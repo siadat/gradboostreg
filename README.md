@@ -13,14 +13,14 @@ Gradient Boosting Regressor in Go
 
 ### Problem
 Let's say we have one predictor (also known as a feature) named X and we want to find the function
-that predicts the value Y. Give the following 6 train samples:
+that predicts the value Y. Given the following 6 training samples:
 
     X:  0  1  2  3 4 5
     Y: 10 10 20 20 5 5
 
 Predict Y for the following X values:
 
-    X: 0.0 0.5 2.5 2.0 4.5
+    X: 0 0.5 2.5 2 4.5
 
 ### Solution
 
