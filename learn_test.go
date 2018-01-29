@@ -11,44 +11,44 @@ import (
 
 func ExampleLearn() {
 	trainSamples := []sample.Sample{
-		sample.DefaultSample{Xs: map[string]float64{"x": 0}, Y: 10},
-		sample.DefaultSample{Xs: map[string]float64{"x": 1}, Y: 10},
-		sample.DefaultSample{Xs: map[string]float64{"x": 2}, Y: 20},
-		sample.DefaultSample{Xs: map[string]float64{"x": 3}, Y: 20},
-		sample.DefaultSample{Xs: map[string]float64{"x": 4}, Y: 5},
-		sample.DefaultSample{Xs: map[string]float64{"x": 5}, Y: 5},
+		sample.DefaultSample{Xs: map[string]float64{"X": 0}, Y: 10},
+		sample.DefaultSample{Xs: map[string]float64{"X": 1}, Y: 10},
+		sample.DefaultSample{Xs: map[string]float64{"X": 2}, Y: 20},
+		sample.DefaultSample{Xs: map[string]float64{"X": 3}, Y: 20},
+		sample.DefaultSample{Xs: map[string]float64{"X": 4}, Y: 5},
+		sample.DefaultSample{Xs: map[string]float64{"X": 5}, Y: 5},
 	}
 	predictFunc := gradboostreg.Learn(trainSamples, 0.5, 10)
 
 	testSamples := []sample.Sample{
-		sample.DefaultSample{Xs: map[string]float64{"x": 0.0}, Y: 10},
-		sample.DefaultSample{Xs: map[string]float64{"x": 0.5}, Y: 10},
-		sample.DefaultSample{Xs: map[string]float64{"x": 2.5}, Y: 20},
-		sample.DefaultSample{Xs: map[string]float64{"x": 2.0}, Y: 20},
-		sample.DefaultSample{Xs: map[string]float64{"x": 4.5}, Y: 5},
+		sample.DefaultSample{Xs: map[string]float64{"X": 0.0}},
+		sample.DefaultSample{Xs: map[string]float64{"X": 0.5}},
+		sample.DefaultSample{Xs: map[string]float64{"X": 2.5}},
+		sample.DefaultSample{Xs: map[string]float64{"X": 2.0}},
+		sample.DefaultSample{Xs: map[string]float64{"X": 4.5}},
 	}
 
 	for i := range testSamples {
-		predicted, actual := predictFunc(testSamples[i]), testSamples[i].GetY()
-		fmt.Printf("predicted=%.1f actual=%.1f\n", predicted, actual)
+		predictedY := predictFunc(testSamples[i])
+		fmt.Printf("X=%.1f predictedY=%.1f\n", testSamples[i].GetX("X"), predictedY)
 	}
 
 	// Output:
-	// predicted=10.0 actual=10.0
-	// predicted=10.0 actual=10.0
-	// predicted=20.0 actual=20.0
-	// predicted=20.0 actual=20.0
-	// predicted=5.0 actual=5.0
+	// X=0.0 predictedY=10.0
+	// X=0.5 predictedY=10.0
+	// X=2.5 predictedY=20.0
+	// X=2.0 predictedY=20.0
+	// X=4.5 predictedY=5.0
 }
 
 func TestLearn(t *testing.T) {
 	samples := []sample.Sample{
-		sample.DefaultSample{Xs: map[string]float64{"x": 0}, Y: 10},
-		sample.DefaultSample{Xs: map[string]float64{"x": 1}, Y: 10},
-		sample.DefaultSample{Xs: map[string]float64{"x": 2}, Y: 20},
-		sample.DefaultSample{Xs: map[string]float64{"x": 3}, Y: 20},
-		sample.DefaultSample{Xs: map[string]float64{"x": 4}, Y: 5},
-		sample.DefaultSample{Xs: map[string]float64{"x": 5}, Y: 5},
+		sample.DefaultSample{Xs: map[string]float64{"X": 0}, Y: 10},
+		sample.DefaultSample{Xs: map[string]float64{"X": 1}, Y: 10},
+		sample.DefaultSample{Xs: map[string]float64{"X": 2}, Y: 20},
+		sample.DefaultSample{Xs: map[string]float64{"X": 3}, Y: 20},
+		sample.DefaultSample{Xs: map[string]float64{"X": 4}, Y: 5},
+		sample.DefaultSample{Xs: map[string]float64{"X": 5}, Y: 5},
 	}
 	predictFunc := gradboostreg.Learn(samples, 0.5, 30)
 	checkSamples(t, samples, predictFunc, 0.00000001)
@@ -62,7 +62,7 @@ func TestLearnX2(t *testing.T) {
 	for i := -2.0; i < 2; i += 0.2 {
 		x := i
 		samples = append(samples, sample.DefaultSample{
-			Xs: map[string]float64{"x": x},
+			Xs: map[string]float64{"X": x},
 			Y:  x * x,
 		})
 	}
@@ -77,7 +77,7 @@ func TestLearnX2Y2(t *testing.T) {
 		for j := -2.0; j < 2; j += 0.2 {
 			x, y := i, j
 			samples = append(samples, sample.DefaultSample{
-				Xs: map[string]float64{"x": x, "y": y},
+				Xs: map[string]float64{"X": x, "y": y},
 				Y:  x*x + y*y,
 			})
 		}
@@ -98,7 +98,7 @@ func TestLearnBanana(t *testing.T) {
 		for j := -2.0; j < 2; j += 0.2 {
 			x, y := i, j
 			samples = append(samples, sample.DefaultSample{
-				Xs: map[string]float64{"x": x, "y": y},
+				Xs: map[string]float64{"X": x, "y": y},
 				Y:  bananaFunc(x, y),
 			})
 		}
